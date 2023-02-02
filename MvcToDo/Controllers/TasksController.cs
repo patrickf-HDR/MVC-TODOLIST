@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcToDo.Data;
 using MvcToDoList.Models;
-using Task = MvcToDoList.Models.Task;
 
 namespace MvcToDo.Controllers
 {
@@ -21,11 +20,25 @@ namespace MvcToDo.Controllers
         }
 
         // GET: Tasks
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-              return _context.Task != null ? 
-                          View(await _context.Task.ToListAsync()) :
-                          Problem("Entity set 'MvcToDoContext.Task'  is null.");
+            if (_context.Task == null)
+            {
+                return Problem("Entity set 'MvcToDoContext.Task'  is null.");
+            }
+
+            var tasks = from m in _context.Task
+                        select m;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                tasks = tasks.Where(s => s.Title!.Contains(searchString));
+            }
+
+            return View(await tasks.ToArrayAsync());
+
+              //return _context.Task != null ? 
+              //            View(await _context.Task.ToListAsync()) :
+              //            Problem("Entity set 'MvcToDoContext.Task'  is null.");
         }
 
         // GET: Tasks/Details/5

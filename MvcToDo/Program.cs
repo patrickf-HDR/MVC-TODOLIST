@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcToDo.Data;
+using MvcToDo.Models;
+using MvcToDoList.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcToDoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcToDoContext") ?? throw new InvalidOperationException("Connection string 'MvcToDoContext' not found.")));
@@ -9,6 +12,13 @@ builder.Services.AddDbContext<MvcToDoContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
