@@ -70,7 +70,7 @@ namespace MvcToDo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,DueDate,Category,Priority")] Task task)
+        public async Task<IActionResult> Create([Bind("Id,Title,DueDate,Category,Priority")] MvcToDoList.Models.Task task)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace MvcToDo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,DueDate,Category,Priority")] Task task)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,DueDate,Category,Priority")] MvcToDoList.Models.Task task)
         {
             if (id != task.Id)
             {

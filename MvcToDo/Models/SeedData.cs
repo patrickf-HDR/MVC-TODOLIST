@@ -14,7 +14,6 @@ public static class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<MvcToDoContext>>()))
         {
-            // Look for any movies.
             if (context.Task.Any())
             {
                 return;   // DB has been seeded
